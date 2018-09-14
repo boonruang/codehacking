@@ -91,9 +91,12 @@ class AdminCategoriesController extends Controller
     {
         //
 
-        $input = $request->all();
 
-        Category::whereId($id)->first()->update($input);
+//        Category::whereId($id)->first()->update($request->all());
+
+            $category = Category::findOrFail($id);
+
+            $category->update($request->all());
 
 //        return $category;
 
