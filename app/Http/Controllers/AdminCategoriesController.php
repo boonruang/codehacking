@@ -6,6 +6,7 @@ use App\Category;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Session;
 
 class AdminCategoriesController extends Controller
 {
@@ -30,6 +31,8 @@ class AdminCategoriesController extends Controller
     {
         //
 
+        return view('admin.categories.create');
+
 
 
     }
@@ -43,8 +46,10 @@ class AdminCategoriesController extends Controller
     public function store(Request $request)
     {
         //
-        $input = $request->all();
-        Category::create($input);
+//        $input = $request->all();
+//        Category::create($input);
+
+        Category::create($request->all());
 
         return redirect('/admin/categories');
 
@@ -88,12 +93,12 @@ class AdminCategoriesController extends Controller
 
         $input = $request->all();
 
-        $category = Category::whereId($id);
+        Category::whereId($id)->first()->update($input);
 
-        return $category;
+//        return $category;
 
 //        $category->update($input);
-//        return redirect('/admin/categories');
+        return redirect('/admin/categories');
 
     }
 
@@ -107,5 +112,10 @@ class AdminCategoriesController extends Controller
     {
         //
         Category::whereId($id)->delete();
+
+        Session::flash('deleted_category','The category has been deleted');
+
+        return redirect('/admin/categories');
+
     }
 }
